@@ -16,6 +16,7 @@ Application.$controller("HelpWithChatPageController", ["$scope", function($scope
     };
 
 
+
     $scope.watsonChatbot2Watsonresponse = function($isolateScope) {
         var data = $isolateScope.watsonresponse;
 
@@ -407,5 +408,17 @@ Application.$controller("HelpWithChatPageController", ["$scope", function($scope
 
 
 
+
+
+    $scope.button1Click = function($event, $isolateScope) {
+        $scope.Widgets.watsonChatbot2.send("message to be sent");
+
+    };
+
+
+    $scope.watsonChatbot2Beforesend = function($isolateScope) {
+        console.log("I am just about to send this", $isolateScope.requestbody);
+
+    };
 
 }]); // END Application.$controller
