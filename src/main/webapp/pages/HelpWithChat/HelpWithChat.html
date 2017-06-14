@@ -10,7 +10,6 @@
                     <wm-gridcolumn columnwidth="8" name="gridcolumn2" height="650px">
                         <wm-accordion name="accordion1" closeothers="false" height="100%" class="help-accordion" accessroles="Everyone">
                             <wm-accordionpane name="accordionpane1" title="Help" padding="0px unset" accessroles="Everyone">
-                                <wm-button class="btn-default" caption="Button" type="button" margin="unset 0.5em" name="button1" on-click="button1Click($event, $scope)"></wm-button>
                                 <wm-iframe name="iframe1" width="100%" height="100%" iframesrc="{{sourceURL}}" class="doc-frame" accessroles="Everyone"></wm-iframe>
                             </wm-accordionpane>
                             <wm-accordionpane name="accordionpane4" title="Additional Links" accessroles="Everyone">
@@ -22,7 +21,8 @@
                                     <li><wm-anchor margin="unset 0.5em" name="anchor1" caption="Reviewing_My_Pay_Stub_Job_Aid_CANADA.pdf" hyperlink="resources/files/Reviewing_My_Pay_Stub_Job_Aid_CANADA.pdf"></wm-anchor></li>
                                     -->
                                 </ul>
-                                <wm-livelist listclass="list-group" itemclass="list-group-item" template="true" itemsperrow="xs-1 sm-1 md-1 lg-1" class="media-list" dataset="bind:Variables.invokeDiscoveryService.dataSet.results" navigation="Scroll" name="livelist2">
+                                <wm-livelist listclass="list-group" itemclass="list-group-item" template="true" itemsperrow="xs-1 sm-1 md-1 lg-1" class="media-list" dataset="bind:Variables.invokeDiscoveryService.dataSet.results" navigation="Scroll" name="livelist2"
+                                on-click="Widgets.iframedialog1.open()">
                                     <wm-listtemplate layout="media" name="listtemplate2">
                                         <wm-container class="media-left media-top" name="container4">
                                             <wm-picture name="Picture" class="media-object" width="32pt" height="32pt"></wm-picture>
@@ -37,6 +37,7 @@
                                         </wm-container>
                                     </wm-listtemplate>
                                 </wm-livelist>
+                                <wm-button class="btn-default" caption="Button" type="button" margin="unset 0.5em" name="button1" on-click="button1Click($event, $scope)" show="false"></wm-button>
                             </wm-accordionpane>
                         </wm-accordion>
                     </wm-gridcolumn>
@@ -45,4 +46,7 @@
         </wm-page-content>
     </wm-content>
     <wm-footer content="footer" name="footer1"></wm-footer>
+    <wm-view class="dialog-view" name="view1">
+        <wm-iframedialog name="iframedialog1" url="bind:Widgets.livelist2.selecteditem.original_url"></wm-iframedialog>
+    </wm-view>
 </wm-page>

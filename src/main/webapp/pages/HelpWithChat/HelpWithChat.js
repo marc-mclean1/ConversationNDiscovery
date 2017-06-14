@@ -66,8 +66,10 @@ Application.$controller("HelpWithChatPageController", ["$scope", function($scope
             console.log("After async call to sendInputToNLU");
 
             var hasPDF = parseDataForPDF(data);
+            $scope.Widgets.iframe1.show = hasPDF;
             if (hasPDF || data.context.isReadyToSearch) {
                 $scope.Variables.isReadyToSearch.setValue("dataValue", true);
+
             }
             console.log("FromConv isReadyToSearch = " + $scope.Variables.isReadyToSearch.getValue("dataValue"));
         }
@@ -422,3 +424,10 @@ Application.$controller("HelpWithChatPageController", ["$scope", function($scope
     };
 
 }]); // END Application.$controller
+
+Application.$controller("iframedialog1Controller", ["$scope",
+	function($scope) {
+		"use strict";
+		$scope.ctrlScope = $scope;
+	}
+]);
