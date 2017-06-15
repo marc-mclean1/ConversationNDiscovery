@@ -58,6 +58,15 @@
     margin: 0;
     padding: .5em 1em;
 }
+
+.chat ul>li:not(:last-child) .chat-btn{
+    display:none;
+}
+
+.chat .popover .chat-btn {
+    margin: 2px;
+}
+
 /*
 .chat .user-message {
     border-top-right-radius: 0;
@@ -181,7 +190,7 @@ Application.$controller("WatsonChatbotController", ["$scope", "$element", "Utils
             $template = '<br/>';
         if (inputType === 'buttons') {
             _.forEach(inputOptions, function(option) {
-                $template = $template + '<button class="btn btn-default" ng-click="sendWatsonInput(\'' + option + '\')">' + option + '</button>';
+                $template = $template + '<button class="chat-btn btn btn-default" ng-click="sendWatsonInput(\'' + option + '\')">' + option + '</button>';
             })
             $scope.$element.find('.app-livelist-container > li:last .popover').append($compile($template)($scope));
         }

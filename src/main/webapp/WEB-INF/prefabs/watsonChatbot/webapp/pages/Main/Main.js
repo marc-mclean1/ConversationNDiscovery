@@ -95,7 +95,7 @@ Application.$controller("WatsonChatbotController", ["$scope", "$element", "Utils
             $template = '<br/>';
         if (inputType === 'buttons') {
             _.forEach(inputOptions, function(option) {
-                $template = $template + '<button class="btn btn-default" ng-click="sendWatsonInput(\'' + option + '\')">' + option + '</button>';
+                $template = $template + '<button class="chat-btn btn btn-default" ng-click="sendWatsonInput(\'' + option + '\')">' + option + '</button>';
             })
             $scope.$element.find('.app-livelist-container > li:last .popover').append($compile($template)($scope));
         }
