@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="com.discovery_marc.hr_chat_box.controller,com.discovery_marc.hr_chat_box.service,com.discovery_marc.hr_chat_box.dao"/>
+    <bean class="com.wavemaker.runtime.data.spring.WMPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>
+                    classpath:HR_Chat_Box.properties
+                </value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+    <bean id="HR_Chat_BoxWMManagedDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" depends-on="systemPropertyInitializer" lazy-init="true"
+          p:driverClass="${HR_Chat_Box.driverClass}"
+          p:jdbcUrl="${HR_Chat_Box.url}"
+          p:user="${HR_Chat_Box.username}"
+          p:password="${HR_Chat_Box.password}"
+          p:maxPoolSize="${HR_Chat_Box.maxPoolSize}"
+          p:minPoolSize="${HR_Chat_Box.minPoolSize}"
+          p:maxIdleTime="600"
+          p:maxStatements="50"
+          p:maxStatementsPerConnection="20"
+          p:checkoutTimeout="30000"
+          p:idleConnectionTestPeriod="300"
+          p:unreturnedConnectionTimeout="300"
+          p:debugUnreturnedConnectionStackTraces="true"
+          p:acquireRetryAttempts="3"
+          p:acquireRetryDelay="1000"
+          p:contextClassLoaderSource="library"
+          p:privilegeSpawnedThreads="true"
+            />
+
+    <bean id="HR_Chat_BoxEntityInterceptor" class="com.wavemaker.runtime.data.interceptors.WMEntityInterceptor"/>
+
+    <bean id="HR_Chat_BoxSessionFactory" class="com.wavemaker.runtime.data.factory.TypeResolverSessionFactoryBean">
+        <property name="dataSource" ref="HR_Chat_BoxDataSource"/>
+        <property name="packagesToScan" value="com.discovery_marc.hr_chat_box"/>
+        <property name="entityInterceptor" ref="HR_Chat_BoxEntityInterceptor"/>
+        <property name="mappingResources">
+            <list>
+                <value>
+                HR_Chat_Box-queries.hbm.xml
+                </value>
+            </list>
+        </property>
+
+        <property name="customTypes">
+            <array value-type="com.wavemaker.runtime.data.CustomType">
+                <ref bean="dateTimeCustomType"/>
+            </array>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                ${HR_Chat_Box.dialect}
+                </prop>
+                <prop key="hibernate.show_sql">
+                    false
+                </prop>
+                <prop key="hibernate.globally_quoted_identifiers">
+                    false
+                </prop>
+                <prop key="hibernate.hbm2ddl.auto">
+                ${HR_Chat_Box.hbm2ddl}
+                </prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">
+                    false
+                </prop>
+                <prop key="hibernate.schema_update.unique_constraint_strategy">
+                    skip
+                </prop>
+                <prop key="hibernate.id.new_generator_mappings">
+                    true
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="HR_Chat_BoxTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="HR_Chat_BoxSessionFactory"/>
+    </bean>
+    <bean id="HR_Chat_BoxTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="HR_Chat_BoxSessionFactory"/>
+    </bean>
+    <bean id="HR_Chat_BoxWMQueryExecutor" class="com.wavemaker.runtime.data.dao.query.WMQueryExecutorImpl">
+        <property name="template" ref="HR_Chat_BoxTemplate"/>
+    </bean>
+    <bean id="HR_Chat_BoxWMProcedureExecutor" class="com.wavemaker.runtime.data.dao.procedure.WMProcedureExecutorImpl">
+        <property name="template" ref="HR_Chat_BoxTemplate"/>
+        <property name="serviceId" value="HR_Chat_Box" />
+    </bean>
+
+    <bean id="persistentLocalDateTimeType" class="com.wavemaker.commons.data.type.WMPersistentLocalDateTime"/>
+    <bean id="dateTimeCustomType" class="com.wavemaker.runtime.data.CustomType">
+        <property name="type" ref="persistentLocalDateTimeType"/>
+        <property name="keys">
+            <list>
+                <value>DateTime</value>
+                <value>org.joda.time.LocalDateTime</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="HR_Chat_BoxPageableHandlerMethodResolver" class="com.wavemaker.runtime.resolver.WMPageableHandlerMethodArgumentResolver" >
+        <property name="pageParameterName" value="page"/>
+        <property name="sizeParameterName" value="size"/>
+        <property name="oneIndexedParameters" value="true"/>
+        <property name="maxPageSize" value="${HR_Chat_Box.maxPageSize}"/>
+        <property name="fallbackPageable">
+            <bean  class="org.springframework.data.domain.PageRequest">
+                <constructor-arg  value="0"/>
+                <constructor-arg  value="20"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="HR_Chat_BoxDataSource" class="com.wavemaker.runtime.data.datasource.WMDataSource">
+        <property name="dataSourceType" value="${HR_Chat_Box.dataSourceType}"/>
+        <property name="jndiName" value="${HR_Chat_Box.jndiName}"/>
+        <property name="serviceId" value="HR_Chat_Box"/>
+    </bean>
+
+
+    <tx:annotation-driven/>
+
+</beans>
+
