@@ -428,6 +428,11 @@ Application.$controller("HelpWithChatPageController", ["$scope", function($scope
         console.log("watsonChatbot2Beforesend:", $isolateScope.requestbody);
     };
 
+
+    $scope.rating1Change = function($event, $isolateScope, item, currentItemWidgets, newVal, oldVal) {
+
+    };
+
 }]); // END Application.$controller
 
 Application.$controller("iframedialog1Controller", ["$scope",

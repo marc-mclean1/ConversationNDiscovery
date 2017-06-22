@@ -77,10 +77,10 @@
       "type" : "string"
     }, {
       "target" : "wm_auth_username",
-      "value" : "cca20581-fab7-4f23-83cc-8958f4243cf9"
+      "value" : "206174e3-c9f1-4c59-b0d6-361014d3cce0"
     }, {
       "target" : "wm_auth_password",
-      "value" : "5fG44gfRclgK"
+      "value" : "pCLnaCFEHTTF"
     } ],
     "type" : "watsonNLUService.RootResponse",
     "service" : "watsonNLUService",
